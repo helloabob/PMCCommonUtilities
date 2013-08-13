@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'PMCCommonUtilities' target in the 'PMCCommonUtilities' project
+//
+
+#ifdef __OBJC__
+    #import <Foundation/Foundation.h>
+#endif
