@@ -7,16 +7,38 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2D1B14FA17BB30C400EFF609 /* PMCTool.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D1B14F817BB30C400EFF609 /* PMCTool.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2D1B14FB17BB30C400EFF609 /* PMCTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D1B14F917BB30C400EFF609 /* PMCTool.m */; };
+		2D1B14FE17BB338A00EFF609 /* CoAPUDPSocketUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D1B14FC17BB338900EFF609 /* CoAPUDPSocketUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2D1B14FF17BB338A00EFF609 /* CoAPUDPSocketUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D1B14FD17BB338A00EFF609 /* CoAPUDPSocketUtils.m */; };
 		2D883F6E17B9D64C004A139C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D883F6D17B9D64C004A139C /* Foundation.framework */; };
 		2D883F7417B9D64C004A139C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2D883F7217B9D64C004A139C /* InfoPlist.strings */; };
+		2D883F7D17B9D6BF004A139C /* DBHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D883F7B17B9D6BF004A139C /* DBHelper.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2D883F7E17B9D6BF004A139C /* DBHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D883F7C17B9D6BF004A139C /* DBHelper.m */; };
+		2D883F8117B9D753004A139C /* DBProcessTask.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D883F7F17B9D753004A139C /* DBProcessTask.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2D883F8217B9D753004A139C /* DBProcessTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D883F8017B9D753004A139C /* DBProcessTask.m */; };
+		2D88404C17BA13D2004A139C /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D88404B17BA13D2004A139C /* libsqlite3.0.dylib */; };
+		2D88405017BA16DA004A139C /* PMCCommonUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D88404F17BA16DA004A139C /* PMCCommonUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2D88405417BA1D1E004A139C /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D88405317BA1D1E004A139C /* libsqlite3.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2D1B14F817BB30C400EFF609 /* PMCTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PMCTool.h; sourceTree = "<group>"; };
+		2D1B14F917BB30C400EFF609 /* PMCTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PMCTool.m; sourceTree = "<group>"; };
+		2D1B14FC17BB338900EFF609 /* CoAPUDPSocketUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoAPUDPSocketUtils.h; sourceTree = "<group>"; };
+		2D1B14FD17BB338A00EFF609 /* CoAPUDPSocketUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoAPUDPSocketUtils.m; sourceTree = "<group>"; };
 		2D883F6A17B9D64C004A139C /* PMCCommonUtilities.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework.static; includeInIndex = 0; path = PMCCommonUtilities.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D883F6D17B9D64C004A139C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		2D883F7117B9D64C004A139C /* PMCCommonUtilities-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PMCCommonUtilities-Info.plist"; sourceTree = "<group>"; };
 		2D883F7317B9D64C004A139C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		2D883F7517B9D64C004A139C /* PMCCommonUtilities-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PMCCommonUtilities-Prefix.pch"; sourceTree = "<group>"; };
+		2D883F7B17B9D6BF004A139C /* DBHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBHelper.h; sourceTree = "<group>"; };
+		2D883F7C17B9D6BF004A139C /* DBHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBHelper.m; sourceTree = "<group>"; };
+		2D883F7F17B9D753004A139C /* DBProcessTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBProcessTask.h; sourceTree = "<group>"; };
+		2D883F8017B9D753004A139C /* DBProcessTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBProcessTask.m; sourceTree = "<group>"; };
+		2D88404B17BA13D2004A139C /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
+		2D88404F17BA16DA004A139C /* PMCCommonUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PMCCommonUtilities.h; sourceTree = "<group>"; };
+		2D88405317BA1D1E004A139C /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -24,6 +46,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2D88405417BA1D1E004A139C /* libsqlite3.dylib in Frameworks */,
+				2D88404C17BA13D2004A139C /* libsqlite3.0.dylib in Frameworks */,
 				2D883F6E17B9D64C004A139C /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -34,6 +58,8 @@
 		2D883F5D17B9D64C004A139C = {
 			isa = PBXGroup;
 			children = (
+				2D88405317BA1D1E004A139C /* libsqlite3.dylib */,
+				2D88404B17BA13D2004A139C /* libsqlite3.0.dylib */,
 				2D883F6F17B9D64C004A139C /* PMCCommonUtilities */,
 				2D883F6C17B9D64C004A139C /* Frameworks */,
 				2D883F6B17B9D64C004A139C /* Products */,
@@ -60,6 +86,15 @@
 			isa = PBXGroup;
 			children = (
 				2D883F7017B9D64C004A139C /* Supporting Files */,
+				2D883F7B17B9D6BF004A139C /* DBHelper.h */,
+				2D883F7C17B9D6BF004A139C /* DBHelper.m */,
+				2D883F7F17B9D753004A139C /* DBProcessTask.h */,
+				2D883F8017B9D753004A139C /* DBProcessTask.m */,
+				2D88404F17BA16DA004A139C /* PMCCommonUtilities.h */,
+				2D1B14F817BB30C400EFF609 /* PMCTool.h */,
+				2D1B14F917BB30C400EFF609 /* PMCTool.m */,
+				2D1B14FC17BB338900EFF609 /* CoAPUDPSocketUtils.h */,
+				2D1B14FD17BB338A00EFF609 /* CoAPUDPSocketUtils.m */,
 			);
 			path = PMCCommonUtilities;
 			sourceTree = "<group>";
@@ -81,6 +116,11 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2D883F7D17B9D6BF004A139C /* DBHelper.h in Headers */,
+				2D883F8117B9D753004A139C /* DBProcessTask.h in Headers */,
+				2D88405017BA16DA004A139C /* PMCCommonUtilities.h in Headers */,
+				2D1B14FA17BB30C400EFF609 /* PMCTool.h in Headers */,
+				2D1B14FE17BB338A00EFF609 /* CoAPUDPSocketUtils.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -192,6 +232,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2D883F7E17B9D6BF004A139C /* DBHelper.m in Sources */,
+				2D883F8217B9D753004A139C /* DBProcessTask.m in Sources */,
+				2D1B14FB17BB30C400EFF609 /* PMCTool.m in Sources */,
+				2D1B14FF17BB338A00EFF609 /* CoAPUDPSocketUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -273,8 +317,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PMCCommonUtilities/PMCCommonUtilities-Prefix.pch";
 				INFOPLIST_FILE = "PMCCommonUtilities/PMCCommonUtilities-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Debug;
@@ -292,8 +338,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PMCCommonUtilities/PMCCommonUtilities-Prefix.pch";
 				INFOPLIST_FILE = "PMCCommonUtilities/PMCCommonUtilities-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Release;
@@ -317,6 +365,7 @@
 				2D883F7A17B9D64C004A139C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
