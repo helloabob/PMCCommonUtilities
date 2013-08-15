@@ -55,9 +55,24 @@ static PMCTool *_sharedInstance = nil;
     return [NSData dataWithBytes:buffer length:strlen(buffer)];
 }
 
-- (NSArray *)getLightsForScene:(NSString *)sceneName {
+- (void)updateLightsForScene:(int)sceneId withData:(NSArray *)array withSceneName:(NSString *)sceneName {
+    NSMutableString *mString = [NSMutableString string];
+    for (NSDictionary *dict in array) {
+        [mString appendFormat:@"UPDATE scene_det SET scene_bright=%d where scene_resource_id=\"%@\" and scene_det_id=%d; ",[[dict objectForKey:@"scene_bright"] intValue], [dict objectForKey:@"scene_resource_id"], sceneId];
+    }
+    [mString appendFormat:@"UPDATE scene_mstr set scene_name=\"%@\" where scene_id=%d;", sceneName, sceneId];
     DBProcessTask *task = [[DBProcessTask alloc] init];
-    task.sql = [NSString stringWithFormat:@"select light_ip,scene_bright,light_id from light_mstr,scene_mstr where light_id=scene_resource_id and scene_name=\"%@\"",sceneName];
+    task.sql = mString;
+    task.taskType = TaskExecCommand;
+    [[DBHelper sharedInstance] doTask:task];
+    if (task.resultCode != -1) {
+        
+    }
+}
+
+- (NSArray *)getLightsForScene:(int)sceneId {
+    DBProcessTask *task = [[DBProcessTask alloc] init];
+    task.sql = [NSString stringWithFormat:@"select light_ip,scene_bright,light_id,scene_name from light_mstr,scene_det,scene_mstr where light_id=scene_resource_id and scene_id=%d and scene_id=scene_det_id order by light_id", sceneId];
     task.taskType = TaskQueryData;
     [[DBHelper sharedInstance] doTask:task];
     if (task.resultCode != 1) {
@@ -66,13 +81,19 @@ static PMCTool *_sharedInstance = nil;
     return task.resultCollection;
 }
 
-- (void)changeToScene:(NSString *)sceneName {
-    NSArray *array = [self getLightsForScene:sceneName];
+- (void)changeToScene:(int)sceneId {
+    NSArray *array = [self getLightsForScene:sceneId];
     for(NSArray *arr in array) {
         NSString *payload = [NSString stringWithFormat:@"{\"b\":%d}",[[arr objectAtIndex:1] intValue]];
         NSData *data = [self packageMessage:payload withType:ControlResourceType];
         [CoAPUDPSocketUtils sendMessageWithData:data withIP:[arr objectAtIndex:0] isResponse:NO];
     }
+}
+
+- (void)changeLightDimming:(int)dimming ForIP:(NSString *)ip {
+    NSString *payload = [NSString stringWithFormat:@"{\"b\":%d}", dimming];
+    NSData *data = [self packageMessage:payload withType:ControlResourceType];
+    [CoAPUDPSocketUtils sendMessageWithData:data withIP:ip isResponse:NO];
 }
 
 - (void)changeAllLightDimming:(int)dimming {
@@ -85,9 +106,10 @@ static PMCTool *_sharedInstance = nil;
     }
     NSArray *array = task.resultCollection;
     for(NSArray *arr in array) {
-        NSString *payload = [NSString stringWithFormat:@"{\"b\":%d}", dimming];
-        NSData *data = [self packageMessage:payload withType:ControlResourceType];
-        [CoAPUDPSocketUtils sendMessageWithData:data withIP:[arr objectAtIndex:0] isResponse:NO];
+        [self changeLightDimming:dimming ForIP:[arr objectAtIndex:0]];
+//        NSString *payload = [NSString stringWithFormat:@"{\"b\":%d}", dimming];
+//        NSData *data = [self packageMessage:payload withType:ControlResourceType];
+//        [CoAPUDPSocketUtils sendMessageWithData:data withIP:[arr objectAtIndex:0] isResponse:NO];
     }
 }
 
@@ -117,7 +139,7 @@ static PMCTool *_sharedInstance = nil;
 
 - (NSArray *)getScenes {
     DBProcessTask *task = [[DBProcessTask alloc] init];
-    task.sql = @"select scene_name from scene_mstr group by scene_name order by scene_id";
+    task.sql = @"select scene_name,scene_id from scene_mstr order by scene_id";
     task.taskType = TaskQueryData;
     [[DBHelper sharedInstance] doTask:task];
     if (task.resultCode == 1) {
