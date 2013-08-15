@@ -15,15 +15,19 @@
 + (id)sharedInstance;
 
 //control light
+- (void)changeLightDimming:(int)dimming ForIP:(NSString *)ip;
+
 - (void)changeAllLightDimming:(int)dimming;
 
-- (void)changeToScene:(NSString *)sceneName;
+- (void)changeToScene:(int)sceneId;
 
 - (void)switchAllLight:(BOOL)isOn;
 
 //relate to database
 - (NSArray *)getScenes;
-- (NSArray *)getLightsForScene:(NSString *)sceneName;
+- (NSArray *)getLightsForScene:(int)sceneId;
+
+- (void)updateLightsForScene:(int)sceneId withData:(NSArray *)array withSceneName:(NSString *)sceneName;
 
 
 @end
