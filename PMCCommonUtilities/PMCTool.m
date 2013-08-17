@@ -96,15 +96,19 @@ static PMCTool *_sharedInstance = nil;
     [CoAPUDPSocketUtils sendMessageWithData:data withIP:ip isResponse:NO];
 }
 
-- (void)changeAllLightDimming:(int)dimming {
+- (NSArray *)getLightsInOffice {
     DBProcessTask *task = [[DBProcessTask alloc] init];
-    task.sql = [NSString stringWithFormat:@"select light_ip from light_mstr where light_office_id=\"%@\"", self.officeId];
+    task.sql = [NSString stringWithFormat:@"select light_ip from light_mstr where light_office_id=\"%@\" order by light_id", self.officeId];
     task.taskType = TaskQueryData;
     [[DBHelper sharedInstance] doTask:task];
     if (task.resultCode != 1) {
-        return;
+        return nil;
     }
-    NSArray *array = task.resultCollection;
+    return task.resultCollection;
+}
+
+- (void)changeAllLightDimming:(int)dimming {
+    NSArray *array = [self getLightsInOffice];
     for(NSArray *arr in array) {
         [self changeLightDimming:dimming ForIP:[arr objectAtIndex:0]];
 //        NSString *payload = [NSString stringWithFormat:@"{\"b\":%d}", dimming];
