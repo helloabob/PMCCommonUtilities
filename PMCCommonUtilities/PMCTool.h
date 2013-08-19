@@ -23,12 +23,16 @@
 
 - (void)switchAllLight:(BOOL)isOn;
 
+- (void)getLightStatus:(NSMutableArray *)array;
+
 //relate to database
 - (NSArray *)getScenes;
 - (NSArray *)getLightsForScene:(int)sceneId;
 - (NSArray *)getLightsInOffice;
 
 - (void)updateLightsForScene:(int)sceneId withData:(NSArray *)array withSceneName:(NSString *)sceneName;
+
+- (BOOL)replaceLightsInfo:(NSArray *)array;
 
 
 @end
