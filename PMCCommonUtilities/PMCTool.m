@@ -90,6 +90,24 @@ static PMCTool *_sharedInstance = nil;
     }
 }
 
+- (void)getLightStatus:(NSMutableArray *)array {
+//    - (NSDictionary *)getHardwareInfo:(NSString *)ip_address {
+//        NSString *result = [CoAPSocketUtils statusSocketWithIp:[ip_address UTF8String]];
+//        //    NSLog(@"%@",result);
+//        if (result && result.length > 20) {
+//            NSRange range = [result rangeOfString:@"{\"h\":"];
+//            //        NSLog(@"location:%d,len:%d",range.location,range.length);
+//            if (range.length != 5) {
+//                return nil;
+//            }
+//            NSString *info = [result substringFromIndex:(range.location)];
+//            NSLog(@"ip:%@ and reslut:%@", ip_address, info);
+//            return [info JSONValue];
+//        }
+//        return nil;
+//    }
+}
+
 - (void)changeLightDimming:(int)dimming ForIP:(NSString *)ip {
     NSString *payload = [NSString stringWithFormat:@"{\"b\":%d}", dimming];
     NSData *data = [self packageMessage:payload withType:ControlResourceType];
@@ -98,7 +116,7 @@ static PMCTool *_sharedInstance = nil;
 
 - (NSArray *)getLightsInOffice {
     DBProcessTask *task = [[DBProcessTask alloc] init];
-    task.sql = [NSString stringWithFormat:@"select light_ip from light_mstr where light_office_id=\"%@\" order by light_id", self.officeId];
+    task.sql = [NSString stringWithFormat:@"select light_ip,light_mac from light_mstr where light_office_id=\"%@\" order by light_id", self.officeId];
     task.taskType = TaskQueryData;
     [[DBHelper sharedInstance] doTask:task];
     if (task.resultCode != 1) {
@@ -129,6 +147,7 @@ static PMCTool *_sharedInstance = nil;
     for(NSArray *arr in array) {
         NSString *payload_value = isOn?@"true":@"false";
         NSString *payload = [NSString stringWithFormat:@"{\"o\":%@}", payload_value];
+        NSLog(@"payload:%@",payload);
         NSData *data = [self packageMessage:payload withType:ControlResourceType];
         [CoAPUDPSocketUtils sendMessageWithData:data withIP:[arr objectAtIndex:0] isResponse:NO];
     }
@@ -150,6 +169,48 @@ static PMCTool *_sharedInstance = nil;
         return task.resultCollection;
     }
     return nil;
+}
+
+- (BOOL)replaceLightsInfo:(NSArray *)array {
+    DBProcessTask *task = [[DBProcessTask alloc] init];
+    NSMutableString *sql=[NSMutableString string];
+    [sql appendFormat:@"DELETE FROM light_mstr; "];
+    for (int i = 0; i < array.count; i ++) {
+        NSDictionary *dict = [array objectAtIndex:i];
+        
+        [sql appendFormat:@"INSERT INTO light_mstr (light_id, light_office_id, light_mac, light_ip) VALUES(%d,\"%@\", \"%@\", \"%@\"); ", [[dict objectForKey:@"light_id"] intValue], self.officeId, [dict objectForKey:@"light_mac"], [dict objectForKey:@"light_ip"]];
+    }
+    task.sql = sql;
+    task.taskType = TaskExecCommand;
+    [[DBHelper sharedInstance] doTask:task];
+    if (task.resultCode == -1) {
+        NSLog(@"error in %@",task.errorCode);
+        return NO;
+    }
+    [task release];
+    task = nil;
+    
+    task = [[DBProcessTask alloc] init];
+    [sql setString:@""];
+    [sql appendFormat:@"DELETE FROM scene_det; "];
+    for (int i = 0; i < 4; i ++) {
+        for (int j = 0; j < array.count; j ++) {
+            NSDictionary *dict = [array objectAtIndex:j];
+            
+            [sql appendFormat:@"INSERT INTO scene_det (scene_det_id,  scene_resource_id, scene_bright) VALUES(%d, %d, %d); ", i+1, [[dict objectForKey:@"light_id"] intValue], 100];
+            
+        }
+    }
+    task.sql = sql;
+    task.taskType = TaskExecCommand;
+    [[DBHelper sharedInstance] doTask:task];
+    if (task.resultCode == -1) {
+        NSLog(@"error in %@",task.errorCode);
+        return NO;
+    }
+    [task release];
+    task = nil;
+    return NO;
 }
 
 @end
