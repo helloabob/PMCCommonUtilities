@@ -76,7 +76,7 @@
     //    free(buffer);
     //    point = NULL;
     close(sockfd);
-    return [NSString stringWithFormat:@"%s",buffer];
+    return [NSString stringWithFormat:@"%s", buffer];
     
 }
 

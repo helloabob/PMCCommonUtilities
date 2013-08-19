@@ -23,7 +23,7 @@
 
 - (void)switchAllLight:(BOOL)isOn;
 
-- (void)getLightStatus:(NSMutableArray *)array;
+- (NSDictionary *)getLightStatusWithIP:(NSString *)ip;
 
 //relate to database
 - (NSArray *)getScenes;

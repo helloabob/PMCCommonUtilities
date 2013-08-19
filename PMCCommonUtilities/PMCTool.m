@@ -14,6 +14,8 @@
 
 #import "CoAPUDPSocketUtils.h"
 
+#import "JSON.h"
+
 typedef enum {
     ControlResourceType,
     GetResourceInfoType,
@@ -90,7 +92,18 @@ static PMCTool *_sharedInstance = nil;
     }
 }
 
-- (void)getLightStatus:(NSMutableArray *)array {
+- (NSDictionary *)getLightStatusWithIP:(NSString *)ip {
+    NSData *data = [self packageMessage:nil withType:GetResourceInfoType];
+    NSString *result = [CoAPUDPSocketUtils sendMessageWithData:data withIP:ip isResponse:YES];
+    if (result && result.length > 20) {
+        NSRange range = [result rangeOfString:@"{\"h\":"];
+        if (range.length != 5) {
+            return nil;
+        }
+        NSString *info = [result substringFromIndex:(range.location)];
+        return [info JSONValue];
+    }
+    return nil;
 //    - (NSDictionary *)getHardwareInfo:(NSString *)ip_address {
 //        NSString *result = [CoAPSocketUtils statusSocketWithIp:[ip_address UTF8String]];
 //        //    NSLog(@"%@",result);
