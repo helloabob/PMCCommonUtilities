@@ -26,6 +26,7 @@
 - (NSDictionary *)getLightStatusWithIP:(NSString *)ip;
 
 //relate to database
+- (int)getSceneCountInOffice;
 - (NSArray *)getScenes;
 - (NSArray *)getLightsForScene:(int)sceneId;
 - (NSArray *)getLightsInOffice;
@@ -33,6 +34,8 @@
 - (void)updateLightsForScene:(int)sceneId withData:(NSArray *)array withSceneName:(NSString *)sceneName;
 
 - (BOOL)replaceLightsInfo:(NSArray *)array;
+
+- (BOOL)registerScenesWithServerData:(NSArray *)array;
 
 
 @end

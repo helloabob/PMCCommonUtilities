@@ -173,6 +173,17 @@ static PMCTool *_sharedInstance = nil;
     return _sharedInstance;
 }
 
+- (int)getSceneCountInOffice {
+    DBProcessTask *task = [[DBProcessTask alloc] init];
+    task.sql = [NSString stringWithFormat:@"SELECT count(*) from scene_det,light_mstr where scene_resource_id=light_id"];
+    task.taskType = TaskQueryData;
+    [[DBHelper sharedInstance] doTask:task];
+    if (task.resultCode == 1) {
+        return [[[task.resultCollection objectAtIndex:0] objectAtIndex:0] intValue];
+    }
+    return 0;
+}
+
 - (NSArray *)getScenes {
     DBProcessTask *task = [[DBProcessTask alloc] init];
     task.sql = @"select scene_name,scene_id from scene_mstr order by scene_id";
@@ -203,27 +214,62 @@ static PMCTool *_sharedInstance = nil;
     [task release];
     task = nil;
     
-    task = [[DBProcessTask alloc] init];
-    [sql setString:@""];
-    [sql appendFormat:@"DELETE FROM scene_det; "];
-    for (int i = 0; i < 4; i ++) {
-        for (int j = 0; j < array.count; j ++) {
-            NSDictionary *dict = [array objectAtIndex:j];
-            
-            [sql appendFormat:@"INSERT INTO scene_det (scene_det_id,  scene_resource_id, scene_bright) VALUES(%d, %d, %d); ", i+1, [[dict objectForKey:@"light_id"] intValue], 100];
-            
-        }
-    }
-    task.sql = sql;
-    task.taskType = TaskExecCommand;
+//    task = [[DBProcessTask alloc] init];
+//    [sql setString:@""];
+//    [sql appendFormat:@"DELETE FROM scene_det; "];
+//    for (int i = 0; i < 4; i ++) {
+//        for (int j = 0; j < array.count; j ++) {
+//            NSDictionary *dict = [array objectAtIndex:j];
+//            
+//            [sql appendFormat:@"INSERT INTO scene_det (scene_det_id,  scene_resource_id, scene_bright) VALUES(%d, %d, %d); ", i+1, [[dict objectForKey:@"light_id"] intValue], 100];
+//            
+//        }
+//    }
+//    task.sql = sql;
+//    task.taskType = TaskExecCommand;
+//    [[DBHelper sharedInstance] doTask:task];
+//    if (task.resultCode == -1) {
+//        NSLog(@"error in %@",task.errorCode);
+//        return NO;
+//    }
+//    [task release];
+//    task = nil;
+    return YES;
+}
+
+- (BOOL)registerScenesWithServerData:(NSArray *)array {
+    DBProcessTask *task = [[DBProcessTask alloc] init];
+    task.sql = @"select scene_det_id,scene_resource_id from scene_det order by scene_det_id";
+    task.taskType = TaskQueryData;
     [[DBHelper sharedInstance] doTask:task];
-    if (task.resultCode == -1) {
-        NSLog(@"error in %@",task.errorCode);
+    if (task.resultCode != 1) {
         return NO;
     }
-    [task release];
-    task = nil;
-    return NO;
+    NSMutableString *sql = [NSMutableString string];
+    [sql appendString:@"delete from scene_det; "];
+    for (NSDictionary *dict in array) {
+        BOOL flag = NO;
+        for (NSArray *tmp in task.resultCollection) {
+            if ([[tmp objectAtIndex:0] isEqualToString:[dict objectForKey:@"scene_det_id"]] && [[tmp objectAtIndex:1] isEqualToString:[dict objectForKey:@"scene_resource_id"]]) {
+                flag = YES;
+                break;
+            }
+        }
+        if (flag == NO) {
+            [sql appendFormat:@"INSERT INTO scene_det (scene_det_id,scene_resource_id,scene_bright) VALUES(%d,%d,%d); ",[[dict objectForKey:@"scene_det_id"] intValue], [[dict objectForKey:@"scene_resource_id"] intValue], [[dict objectForKey:@"scene_bright"] intValue]];
+        }
+    }
+    if (sql.length > 0) {
+        NSLog(@"sql:%@",sql);
+        DBProcessTask *summaryTask = [[DBProcessTask alloc] init];
+        summaryTask.taskType = TaskExecCommand;
+        summaryTask.sql = sql;
+        [[DBHelper sharedInstance] doTask:summaryTask];
+        if (summaryTask.resultCode != 1) {
+            return NO;
+        }
+    }
+    return YES;
 }
 
 @end
