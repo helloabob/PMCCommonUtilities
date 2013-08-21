@@ -175,7 +175,7 @@ static PMCTool *_sharedInstance = nil;
 
 - (int)getSceneCountInOffice {
     DBProcessTask *task = [[DBProcessTask alloc] init];
-    task.sql = [NSString stringWithFormat:@"SELECT count(*) from scene_det,light_mstr where scene_resource_id=light_id"];
+    task.sql = [NSString stringWithFormat:@"SELECT count(*) from scene_det,light_mstr where scene_resource_id=light_id and light_office_id=\"%@\"",_officeId];
     task.taskType = TaskQueryData;
     [[DBHelper sharedInstance] doTask:task];
     if (task.resultCode == 1) {
