@@ -246,7 +246,7 @@ static PMCTool *_sharedInstance = nil;
         return NO;
     }
     NSMutableString *sql = [NSMutableString string];
-    [sql appendString:@"delete from scene_det; "];
+//    [sql appendString:@"delete from scene_det; "];
     for (NSDictionary *dict in array) {
         BOOL flag = NO;
         for (NSArray *tmp in task.resultCollection) {
